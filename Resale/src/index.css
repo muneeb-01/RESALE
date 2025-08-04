@@ -1,0 +1,144 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "craftr1";
+  src: url("./assets/Fonts/craftr1.woff2");
+}
+@font-face {
+  font-family: "craftr2";
+  src: url("./assets//Fonts/craftr2.woff2");
+}
+@font-face {
+  font-family: "craftr3";
+  src: url("./assets/Fonts/craftr3.woff2");
+}
+
+/* To change the theme change the index.html body theme attribute to light or dark */
+
+:root {
+  --light: #f8f6f1;
+  --dark: #0d0d0d;
+  --craftr1: "craftr1", sans-serif;
+  --craftr2: "craftr2", sans-serif;
+  --craftr3: "craftr3", sans-serif;
+}
+
+body[theme="light"] .section {
+  color: var(--dark);
+  background-color: var(--light);
+}
+
+body[theme="dark"] .section {
+  color: var(--light);
+  background-color: var(--dark);
+}
+
+.craftr1 {
+  font-family: var(--craftr1);
+}
+
+.craftr2 {
+  font-family: var(--craftr2);
+}
+
+.craftr3 {
+  font-family: var(--craftr3);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+  font-family: var(--craftr1);
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+h3 {
+  font-size: clamp(1.75rem, 3.5vw, 2.2rem);
+  font-weight: 500;
+}
+
+h4 {
+  font-size: clamp(1.5rem, 3vw, 1.8rem);
+  font-weight: 500;
+}
+
+h5 {
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  font-weight: 400;
+}
+
+/* Paragraph styles */
+p {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-weight: 400;
+  line-height: 1.6;
+  color: #444;
+}
+
+/* Responsive adjustments for smaller screens */
+@media screen and (max-width: 768px) {
+  h1 {
+    font-size: clamp(2rem, 4.5vw, 2.8rem);
+  }
+
+  h2 {
+    font-size: clamp(1.75rem, 4vw, 2.2rem);
+  }
+
+  h3 {
+    font-size: clamp(1.5rem, 3.5vw, 1.8rem);
+  }
+
+  h4 {
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
+  }
+
+  h5 {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+  }
+
+  p {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+  }
+}
+
+/* Responsive adjustments for very small screens */
+@media screen and (max-width: 480px) {
+  h1 {
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+  }
+
+  h3 {
+    font-size: clamp(1.3rem, 3vw, 1.6rem);
+  }
+
+  h4 {
+    font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+  }
+
+  h5 {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+  }
+
+  p {
+    font-size: clamp(0.85rem, 1.8vw, 1rem);
+  }
+}
