@@ -12,8 +12,8 @@ const Login = () => {
     reset,
   } = useForm();
 
-  const onSubmit = (data) => {
-    const responce = authServices.login(data);
+  const onSubmit = async (data) => {
+    const responce = await authServices.login(data);
     console.log(responce);
     reset();
   };

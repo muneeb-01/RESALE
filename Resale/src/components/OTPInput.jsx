@@ -1,8 +1,9 @@
 import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { FaLock } from "react-icons/fa";
+import { authServices } from "@/api/services/authervices";
 
-const OTPInput = () => {
+const OTPInput = ({ email }) => {
   const {
     register,
     handleSubmit,
@@ -46,17 +47,16 @@ const OTPInput = () => {
     e.preventDefault();
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const otpValue = data.otp.join("");
     if (otpValue.length === 6) {
-      alert(`OTP Submitted: ${otpValue}`);
-    } else {
-      alert("Please enter a valid 6-digit OTP");
+      const responce = await authServices.verifyOTP({ email, otpValue });
+      console.log(responce);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+    <div className="flex select-none flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
         <div className="flex items-center justify-center mb-4">
           <FaLock className="text-blue-500 text-2xl mr-2" />

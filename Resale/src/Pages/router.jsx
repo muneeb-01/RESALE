@@ -11,10 +11,6 @@ const router = createBrowserRouter([
     element: <Signup />,
   },
   {
-    path: "/sign-up/verify",
-    element: <OTPInput />,
-  },
-  {
     path: "/",
     element: <Layout />,
   },

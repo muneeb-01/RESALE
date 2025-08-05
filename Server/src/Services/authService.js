@@ -5,24 +5,36 @@ import { generateOTP, getOTPExpiration } from "../utils/otpGenerator.js";
 import { sendOTPEmail } from "./emailService.js";
 
 export const registerUser = async ({ email, password }) => {
-  const existingUser = await User.findOne({ email });
-  if (existingUser) {
-    throw new Error("Email already exists");
+  try {
+    const existingUser = await User.findOne({ email });
+    if (existingUser && existingUser.isVerified) {
+      throw new Error("Email already exists and is verified");
+    }
+
+    // Generate OTP and expiration
+    const otp = generateOTP();
+    const otpExpires = getOTPExpiration();
+
+    let user;
+    if (existingUser) {
+      existingUser.otp = otp;
+      existingUser.otpExpires = otpExpires;
+      await existingUser.save({ validateBeforeSave: false });
+      user = existingUser;
+    } else {
+      user = new User({
+        email,
+        password: await bcrypt.hash(password, 10),
+        otp,
+        otpExpires,
+        isVerified: false,
+      });
+      await user.save({ validateBeforeSave: false });
+    }
+    await sendOTPEmail(email, otp);
+  } catch (error) {
+    throw new Error(`Registration failed: ${error.message}`);
   }
-
-  const otp = generateOTP();
-  const otpExpires = getOTPExpiration();
-
-  // Store user temporarily with OTP
-  const tempUser = new User({
-    email,
-    password: await bcrypt.hash(password, 10),
-    otp,
-    otpExpires,
-  });
-
-  await sendOTPEmail(email, otp);
-  await tempUser.save({ validateBeforeSave: false }); // Save temporarily
 };
 
 export const verifyOTP = async ({ email, otp }) => {

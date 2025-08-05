@@ -8,7 +8,9 @@ const router = Router();
 router.post("/register", async (req, res, next) => {
   try {
     await registerUser(req.body);
-    res.status(201).json({ message: "OTP sent to email" });
+    res
+      .status(201)
+      .json({ email: req.body.email, message: "OTP sent to email" });
   } catch (err) {
     next(err);
   }
