@@ -1,6 +1,5 @@
 import { Router } from "express";
 import passport from "passport";
-
 import { registerUser, verifyOTP, loginUser } from "../Services/authService.js";
 
 const router = Router();
@@ -43,7 +42,8 @@ router.get(
   "/auth/google/callback",
   passport.authenticate("google", { session: false }),
   (req, res) => {
-    res.redirect(`/login/success?token=${req.user.token}`);
+    const ORIGIN = process.env.ORIGIN;
+    res.redirect(`${ORIGIN}/login/success?token=${req.user.token}`);
   }
 );
 

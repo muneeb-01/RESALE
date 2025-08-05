@@ -6,7 +6,7 @@ import SocialLoginButtons from "./ui/SocialLoginButtons";
 import { authServices } from "@/api/services/authervices";
 import { showToast } from "@/components/ToastContainer";
 import { OTPInput } from "@/components";
-
+import { handleSocialLogin } from "@/utils/functions";
 const Signup = () => {
   const navigate = useNavigate();
   const {
@@ -37,10 +37,6 @@ const Signup = () => {
     } finally {
       setIsLoading(false); // Re-enable button
     }
-  };
-
-  const handleSocialLogin = (platform) => {
-    alert(`Logging in with ${platform}`);
   };
 
   return (

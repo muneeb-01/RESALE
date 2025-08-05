@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import FormField from "./ui/FormField";
 import SocialLoginButtons from "./ui/SocialLoginButtons";
 import { authServices } from "@/api/services/authervices";
+import { handleSocialLogin } from "@/utils/functions";
 const Login = () => {
   const {
     register,
@@ -16,10 +17,6 @@ const Login = () => {
     const responce = await authServices.login(data);
     console.log(responce);
     reset();
-  };
-
-  const handleSocialLogin = (platform) => {
-    alert(`Logging in with ${platform}`);
   };
 
   return (

@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Layout, Login, NotFound, Signup, OTPInput } from "@/components";
+import { Layout, Login, NotFound, Signup, LoginSuccess } from "@/components";
 
 const router = createBrowserRouter([
   {
@@ -9,6 +9,10 @@ const router = createBrowserRouter([
   {
     path: "/sign-up",
     element: <Signup />,
+  },
+  {
+    path: "/login/success",
+    element: <LoginSuccess />,
   },
   {
     path: "/",
