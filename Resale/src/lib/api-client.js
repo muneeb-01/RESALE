@@ -9,16 +9,16 @@ const apiClient = axios.create({
 });
 
 // Request Interceptor: Add auth token if available
-apiClient.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("authToken"); // Example: Retrieve token from localStorage
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+// apiClient.interceptors.request.use(
+//   (config) => {
+//     const token = localStorage.getItem("authToken"); // Example: Retrieve token from localStorage
+//     if (token) {
+//       config.headers.Authorization = `Bearer ${token}`;
+//     }
+//     return config;
+//   },
+//   (error) => Promise.reject(error)
+// );
 
 // Response Interceptor: Handle errors globally
 apiClient.interceptors.response.use(

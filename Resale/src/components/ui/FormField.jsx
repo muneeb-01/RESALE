@@ -2,7 +2,7 @@ import React from "react";
 
 const FormField = ({ label, type, placeholder, register, error }) => (
   <div>
-    <label className="block cursor-pointer text-sm sm:text-base font-medium text-gray-700">
+    <label className="block select-none cursor-pointer text-sm sm:text-base font-medium text-gray-700">
       {label}
     </label>
     <input
@@ -14,7 +14,9 @@ const FormField = ({ label, type, placeholder, register, error }) => (
       placeholder={placeholder}
     />
     {error && (
-      <p className="mt-1 text-xs sm:text-sm text-red-500">{error.message}</p>
+      <p className="mt-1 select-none text-xs sm:text-sm text-red-500">
+        {error.message}
+      </p>
     )}
   </div>
 );

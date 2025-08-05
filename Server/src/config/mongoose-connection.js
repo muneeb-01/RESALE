@@ -3,9 +3,10 @@ import dotenv from "dotenv";
 import debug from "debug";
 
 const dbgr = debug("development:mongoose");
-dotenv.config();
+dotenv.config({ quiet: true });
 
-const uri = process.env.MONGOOSE_URI;
+const uri = process.env.MONGODB_URI;
+
 mongoose
   .connect(uri)
   .then(() => {
@@ -16,4 +17,4 @@ mongoose
     dbgr("Mongoose connection error");
   });
 
-module.exports = mongoose.connection;
+export default mongoose.connection;

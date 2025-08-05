@@ -3,8 +3,9 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import FormField from "./ui/FormField";
 import SocialLoginButtons from "./ui/SocialLoginButtons";
-
+import { useNavigate } from "react-router-dom";
 const Signup = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -14,7 +15,7 @@ const Signup = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    alert(`Sign Up form submitted with data: ${JSON.stringify(data)}`);
+    navigate("/sign-up/verify");
     reset();
   };
 
@@ -23,7 +24,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen select-none flex items-center justify-center bg-gray-100 px-4 sm:px-6 lg:px-8">
       <div className="bg-white p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-sm sm:max-w-md lg:max-w-lg">
         <h2 className="text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6">
           Sign Up
