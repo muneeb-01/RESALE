@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { createToggleSlice } from "./Slice/createToggleSlice";
+import { createAuthSlice } from "./Slice/createAuthSlice";
 
 export const useAppStore = create()((...a) => ({
-  ...createToggleSlice(...a),
+  ...createAuthSlice(...a),
 }));

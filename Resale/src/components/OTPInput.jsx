@@ -1,9 +1,11 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaLock } from "react-icons/fa";
 import { authServices } from "@/api/services/authervices";
+import { useNavigate } from "react-router-dom";
+import { SIGN_UP_REDIRECT } from "@/utils/constants";
 
-const OTPInput = ({ email }) => {
+const OTPInput = ({ email, setShowOTPInput }) => {
   const {
     register,
     handleSubmit,
@@ -16,6 +18,8 @@ const OTPInput = ({ email }) => {
     },
   });
   const inputRefs = useRef([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   const otpValues = watch("otp");
 
@@ -25,7 +29,6 @@ const OTPInput = ({ email }) => {
       newOtp[index] = value;
       setValue("otp", newOtp);
 
-      // Move to next input if value is entered
       if (value && index < 5) {
         inputRefs.current[index + 1].focus();
       }
@@ -50,8 +53,16 @@ const OTPInput = ({ email }) => {
   const onSubmit = async (data) => {
     const otpValue = data.otp.join("");
     if (otpValue.length === 6) {
-      const responce = await authServices.verifyOTP({ email, otpValue });
-      console.log(responce);
+      try {
+        setIsSubmitting(true);
+        const { status } = await authServices.verifyOTP({ email, otpValue });
+        if (status === 200) navigate(SIGN_UP_REDIRECT);
+      } catch (error) {
+        console.error("OTP verification failed:", error);
+        setShowOTPInput(false);
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -99,9 +110,12 @@ const OTPInput = ({ email }) => {
           )}
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
+            disabled={isSubmitting}
+            className={`w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors ${
+              isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
-            Verify OTP
+            {isSubmitting ? "Verifying..." : "Verify OTP"}
           </button>
         </form>
       </div>

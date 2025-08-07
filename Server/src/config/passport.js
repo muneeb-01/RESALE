@@ -9,11 +9,16 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: GOOGLE_AUTH_ROUTE,
+      passReqToCallback: true,
     },
-    async (accessToken, refreshToken, profile, done) => {
+    async (req, accessToken, refreshToken, profile, done) => {
       try {
-        const token = await handleSocialLogin(profile, "google");
-        return done(null, { token });
+        const result = await handleSocialLogin(
+          { res: req.res },
+          profile,
+          "google"
+        );
+        return done(null, { result });
       } catch (err) {
         return done(err, null);
       }

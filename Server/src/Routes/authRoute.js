@@ -1,35 +1,48 @@
-import { Router } from "express";
+import express from "express";
 import passport from "passport";
-import { registerUser, verifyOTP, loginUser } from "../Services/authService.js";
+import {
+  registerUser,
+  verifyOTP,
+  loginUser,
+  refreshToken,
+  logoutUser,
+} from "../Services/authService.js";
 
-const router = Router();
+const router = express.Router();
 
-router.post("/register", async (req, res, next) => {
+router.post("/register", async (req, res) => {
   try {
-    await registerUser(req.body);
-    res
-      .status(201)
-      .json({ email: req.body.email, message: "OTP sent to email" });
-  } catch (err) {
-    next(err);
+    const result = await registerUser(req, req.body);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 });
 
-router.post("/verify-otp", async (req, res, next) => {
+router.post("/verify-otp", async (req, res) => {
   try {
-    const token = await verifyOTP(req.body);
-    res.json({ message: "Email verified", token });
-  } catch (err) {
-    next(err);
+    const result = await verifyOTP(req, req.body);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 });
 
-router.post("/login", async (req, res, next) => {
+router.post("/login", async (req, res) => {
   try {
-    const token = await loginUser(req.body);
-    res.json({ message: "Login successful", token });
-  } catch (err) {
-    next(err);
+    const result = await loginUser(req, req.body);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(401).json({ error: error.message });
+  }
+});
+
+router.post("/refresh-token", async (req, res) => {
+  try {
+    const result = await refreshToken(req, res);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(403).json({ error: error.message });
   }
 });
 
@@ -42,9 +55,19 @@ router.get(
   "/auth/google/callback",
   passport.authenticate("google", { session: false }),
   (req, res) => {
+    const { result } = req.user;
     const ORIGIN = process.env.ORIGIN;
-    res.redirect(`${ORIGIN}/login/success?token=${req.user.token}`);
+    res.redirect(`${ORIGIN}/login/success?token=${result.accessToken}`);
   }
 );
+
+router.post("/logout", async (req, res) => {
+  try {
+    const result = await logoutUser(req, res);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
 
 export default router;

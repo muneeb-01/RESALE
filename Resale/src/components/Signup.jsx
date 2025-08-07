@@ -7,8 +7,12 @@ import { authServices } from "@/api/services/authervices";
 import { showToast } from "@/components/ToastContainer";
 import { OTPInput } from "@/components";
 import { handleSocialLogin } from "@/utils/functions";
+import { useAppStore } from "@/Store";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
+  const { setAuth } = useAppStore();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -27,11 +31,11 @@ const Signup = () => {
         email: data.email,
         password: data.password,
       });
+      if (response.status === 200) showToast.info(response.data.message);
       setRegisteredEmail(data.email);
       setShowOTPInput(true); // Show OTP input on successful registration
       reset(); // Reset form
     } catch (error) {
-      showToast.error(error.message);
       console.error("Registration error:", error);
     } finally {
       setIsLoading(false); // Re-enable button
@@ -42,7 +46,7 @@ const Signup = () => {
     <div className="min-h-screen select-none flex items-center justify-center bg-gray-100 px-4 sm:px-6 lg:px-8">
       <div className="bg-white p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-sm sm:max-w-md lg:max-w-lg">
         {showOTPInput ? (
-          <OTPInput email={registeredEmail} /> // Pass email to OTPInput
+          <OTPInput email={registeredEmail} setShowOTPInput={setShowOTPInput} /> // Pass email to OTPInput
         ) : (
           <>
             <h2 className="text-xl sm:text-2xl font-bold text-center mb-4 sm:mb-6">

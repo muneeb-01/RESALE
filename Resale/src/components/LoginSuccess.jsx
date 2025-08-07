@@ -2,19 +2,19 @@
 import React, { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { showToast } from "@/components/ToastContainer";
-
+import { LOGIN_REDIRECT } from "@/utils/constants";
+import { useAppStore } from "@/Store";
 const LoginSuccess = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
+  const { setAuth } = useAppStore();
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const token = queryParams.get("token");
-
     if (token) {
-      localStorage.setItem("authToken", token);
+      setAuth({ accessToken: token, user: null });
       showToast.success("Successfully logged in!");
-      navigate("/");
+      navigate(LOGIN_REDIRECT);
     } else {
       showToast.error("Authentication failed. No token received.");
       navigate("/login");

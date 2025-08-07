@@ -10,6 +10,7 @@ const userSchema = new Schema(
       lowercase: true,
       trim: true,
     },
+    displayName: { type: String },
     password: { type: String },
     otp: { type: String },
     otpExpires: { type: Date },

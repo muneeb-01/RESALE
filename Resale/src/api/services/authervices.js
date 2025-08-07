@@ -1,7 +1,7 @@
 // src/api/services/userService.js
 import apiClient from "@/lib/api-client";
 import { LOGIN_ROUTE, SIGNUP_ROUTE, OTP_VERIFY_ROUTE } from "@/utils/constants";
-import { showToast } from "@/components/ToastContainer";
+
 export const authServices = {
   register: async ({ email, password }) => {
     try {

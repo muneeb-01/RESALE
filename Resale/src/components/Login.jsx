@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import FormField from "./ui/FormField";
 import SocialLoginButtons from "./ui/SocialLoginButtons";
 import { authServices } from "@/api/services/authervices";
 import { handleSocialLogin } from "@/utils/functions";
+import { useAppStore } from "@/Store";
+import { LOGIN_REDIRECT } from "@/utils/constants";
+
 const Login = () => {
+  const { setAuth } = useAppStore();
+  const navigate = useNavigate();
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -14,9 +22,21 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const responce = await authServices.login(data);
-    console.log(responce);
-    reset();
+    try {
+      setIsSubmitting(true);
+      const response = await authServices.login(data);
+      console.log(response);
+      setAuth({
+        accessToken: response?.data?.accessToken,
+        user: response?.data?.user,
+      });
+      navigate(LOGIN_REDIRECT);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSubmitting(false);
+      reset();
+    }
   };
 
   return (
@@ -57,9 +77,12 @@ const Login = () => {
           />
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 sm:py-2.5 rounded-md hover:bg-blue-700 transition duration-200 text-sm sm:text-base"
+            disabled={isSubmitting}
+            className={`w-full bg-blue-600 text-white py-2 sm:py-2.5 rounded-md hover:bg-blue-700 transition duration-200 text-sm sm:text-base ${
+              isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
-            Login
+            {isSubmitting ? "Logging in..." : "Login"}
           </button>
         </form>
         <div className="mt-3 sm:mt-4 text-center">
