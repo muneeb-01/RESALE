@@ -29,6 +29,7 @@ export const registerUser = async ({ email, password }) => {
         otpExpires,
         isVerified: false,
       });
+      console.log(user);
       await user.save({ validateBeforeSave: false });
     }
     await sendOTPEmail(email, otp);
@@ -39,7 +40,6 @@ export const registerUser = async ({ email, password }) => {
 
 export const verifyOTP = async ({ email, otp }) => {
   const user = await User.findOne({ email });
-
   if (!user) {
     throw new Error("User not found");
   }
@@ -76,19 +76,52 @@ export const loginUser = async ({ email, password }) => {
   });
 };
 
-export const handleSocialLogin = async (profile, provider) => {
-  const field = provider === "google" ? "googleId" : "facebookId";
-  let user = await User.findOne({ [field]: profile.id });
+export const handleSocialLogin = async (req, profile, provider) => {
+  try {
+    const field = provider === "google" ? "googleId" : "facebookId";
+    const email =
+      profile.emails && profile.emails.length > 0
+        ? profile.emails[0].value
+        : null;
 
-  if (!user && profile.emails && profile.emails[0]) {
-    user = await User.create({
-      email: profile.emails[0].value,
-      [field]: profile.id,
-      isVerified: true,
+    console.log("Social Profile:", JSON.stringify(profile, null, 2));
+    console.log("Raw JSON:", profile._json);
+
+    let user = await User.findOne({ [field]: profile.id }).lean();
+    if (!user && email) {
+      user = await User.findOne({ email }).lean();
+      if (user) {
+        // Link social account to existing user
+        await User.updateOne(
+          { email },
+          {
+            [field]: profile.id,
+            isVerified: true,
+            displayName:
+              profile.displayName || profile.name?.givenName || "Unknown",
+          }
+        );
+        user = await User.findOne({ email }).lean();
+      } else {
+        // Create new user
+        user = await User.create({
+          email,
+          [field]: profile.id,
+          isVerified: true,
+          displayName:
+            profile.displayName || profile.name?.givenName || "Unknown",
+        });
+      }
+    } else if (!user) {
+      // No email provided; prompt client to provide email
+      return { needsEmail: true, profile, provider };
+    }
+
+    // Generate tokens and set refresh token cookie
+    return jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
     });
+  } catch (error) {
+    throw new Error(`Social login failed: ${error.message}`);
   }
-
-  return jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-    expiresIn: "1h",
-  });
 };

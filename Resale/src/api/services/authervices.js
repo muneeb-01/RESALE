@@ -12,8 +12,6 @@ export const authServices = {
       );
       return response;
     } catch (error) {
-      console.log(error);
-      showToast.error(`Internal server error.`);
       throw error;
     }
   },
@@ -26,7 +24,6 @@ export const authServices = {
       );
       return response;
     } catch (error) {
-      showToast.error(`Invalid credentials.`);
       throw error;
     }
   },
@@ -41,7 +38,6 @@ export const authServices = {
       );
       return response;
     } catch (error) {
-      showToast.error(`Invalid credentials.`);
       throw error;
     }
   },

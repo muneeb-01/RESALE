@@ -47,17 +47,4 @@ router.get(
   }
 );
 
-router.get(
-  "/auth/facebook",
-  passport.authenticate("facebook", { scope: ["email"] })
-);
-
-router.get(
-  "/auth/facebook/callback",
-  passport.authenticate("facebook", { session: false }),
-  (req, res) => {
-    res.redirect(`/login/success?token=${req.user.token}`);
-  }
-);
-
 export default router;

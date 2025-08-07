@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import FormField from "./ui/FormField";
 import SocialLoginButtons from "./ui/SocialLoginButtons";
 import { authServices } from "@/api/services/authervices";
 import { showToast } from "@/components/ToastContainer";
 import { OTPInput } from "@/components";
 import { handleSocialLogin } from "@/utils/functions";
+
 const Signup = () => {
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -27,12 +27,11 @@ const Signup = () => {
         email: data.email,
         password: data.password,
       });
-      console.log(response);
       setRegisteredEmail(data.email);
       setShowOTPInput(true); // Show OTP input on successful registration
       reset(); // Reset form
     } catch (error) {
-      showToast("error", "Registration failed. Please try again.");
+      showToast.error(error.message);
       console.error("Registration error:", error);
     } finally {
       setIsLoading(false); // Re-enable button

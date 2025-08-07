@@ -15,13 +15,6 @@ const SocialLoginButtons = ({ handleSocialLogin }) => (
         <FcGoogle className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
         Google
       </button>
-      <button
-        onClick={() => handleSocialLogin("facebook")}
-        className="flex items-center justify-center px-3 py-2 sm:px-4 sm:py-2.5 bg-blue-800 text-white rounded-md hover:bg-blue-900 transition duration-200 text-sm sm:text-base w-full sm:w-auto"
-      >
-        <FaFacebook className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-        Facebook
-      </button>
     </div>
   </div>
 );
