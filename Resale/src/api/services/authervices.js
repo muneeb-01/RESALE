@@ -10,6 +10,7 @@ export const authServices = {
         { email, password },
         { withCredentials: true }
       );
+
       return response;
     } catch (error) {
       throw error;
@@ -22,6 +23,7 @@ export const authServices = {
         { email, password },
         { withCredentials: true }
       );
+
       return response;
     } catch (error) {
       throw error;

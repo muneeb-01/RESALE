@@ -13,6 +13,7 @@ const LoginSuccess = () => {
     const token = queryParams.get("token");
     if (token) {
       setAuth({ accessToken: token, user: null });
+      localStorage.setItem("accessToken", token);
       showToast.success("Successfully logged in!");
       navigate(LOGIN_REDIRECT);
     } else {

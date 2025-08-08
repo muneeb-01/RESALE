@@ -13,9 +13,9 @@ const generateTokens = async (user, res) => {
     const payload = { userId: user._id.toString(), email: user.email };
     const accessToken = await generateAccessToken(payload);
     const refreshToken = await generateRefreshToken(payload);
-
+    // 7 * 24 * 60 * 60 *
     // Store refresh token
-    const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+    const expires = new Date(Date.now() + 10000); // 7 days
     await refreshTokenStore.save(refreshToken, user._id.toString(), expires);
     // Set refresh token in HTTP-only cookie
     res.cookie("refreshToken", refreshToken, {
@@ -24,7 +24,6 @@ const generateTokens = async (user, res) => {
       sameSite: "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
-
     return {
       accessToken,
       user: {

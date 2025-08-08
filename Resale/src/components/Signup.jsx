@@ -7,12 +7,8 @@ import { authServices } from "@/api/services/authervices";
 import { showToast } from "@/components/ToastContainer";
 import { OTPInput } from "@/components";
 import { handleSocialLogin } from "@/utils/functions";
-import { useAppStore } from "@/Store";
-import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
-  const { setAuth } = useAppStore();
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
