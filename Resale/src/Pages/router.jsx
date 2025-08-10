@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Layout, Login, NotFound, Signup, LoginSuccess } from "@/components";
 import { AuthRoute, PrivateRoute } from "@/components/validateRoutes";
-
+import LandingPage from "@/Pages/Landing/LandingPage";
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -12,7 +12,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/sign-up",
+    path: "/signup",
     element: (
       <AuthRoute>
         <Signup />,
@@ -29,11 +29,13 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: (
-      <PrivateRoute>
-        <Layout />,
-      </PrivateRoute>
-    ),
+    element: <Layout />,
+    children: [
+      {
+        path: "/",
+        element: <LandingPage />,
+      },
+    ],
   },
   {
     path: "*",

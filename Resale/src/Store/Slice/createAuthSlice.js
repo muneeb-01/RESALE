@@ -16,31 +16,21 @@ export const createAuthSlice = (set) => ({
   },
   initializeAuth: async () => {
     set({ isInitializing: true });
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      set({ accessToken: token, isInitializing: false });
-    } else {
-      try {
-        const response = await apiClient.post(
-          REFRESH_TOKEN_ROUTE,
-          {},
-          { withCredentials: true }
-        );
-        const { accessToken, user } = response.data;
-        if (!accessToken || !user) {
-          throw new Error("Invalid refresh response");
-        }
-        localStorage.setItem("accessToken", accessToken);
-        set({ accessToken, user, isInitializing: false });
-        showToast.success("Session restored successfully");
-      } catch (error) {
-        console.error(
-          "Initialize auth failed:",
-          error.response?.data?.error || error.message
-        );
-        localStorage.removeItem("accessToken"); // Clear stale token
-        set({ accessToken: null, user: null, isInitializing: false });
+    try {
+      const response = await apiClient.post(REFRESH_TOKEN_ROUTE);
+      const { accessToken, user } = response.data;
+      if (!accessToken || !user) {
+        throw new Error("Invalid refresh response");
       }
+      localStorage.setItem("accessToken", accessToken);
+      set({ accessToken, user, isInitializing: false });
+    } catch (error) {
+      console.error(
+        "Initialize auth failed:",
+        error.response?.data?.error || error.message
+      );
+      localStorage.removeItem("accessToken"); // Clear stale token
+      set({ accessToken: null, user: null, isInitializing: false });
     }
   },
 });
