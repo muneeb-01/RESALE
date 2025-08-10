@@ -18,7 +18,6 @@ const dbgr = debug("development:app");
 
 const app = express();
 const PORT = process.env.PORT;
-const ORIGIN = process.env.ORIGIN;
 
 app.use(cookieParser());
 app.use(express.json());

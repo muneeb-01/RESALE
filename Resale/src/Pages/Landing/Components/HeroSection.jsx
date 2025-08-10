@@ -58,7 +58,7 @@ const HeroSection = () => {
           <Link
             to="/signup"
             className="bg-gradient-to-r from-green-500 to-teal-800 text-white font-medium py-2 px-4 sm:py-3 sm:px-6 rounded-md hover:shadow-lg transition-shadow"
-            whileHover="hover"
+            whilehover="hover"
             variants={buttonVariants}
           >
             Get Started

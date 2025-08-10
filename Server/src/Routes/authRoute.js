@@ -7,7 +7,7 @@ import {
   refreshToken,
   logoutUser,
 } from "../services/authService.js";
-
+import config from "../config/config.js";
 const router = express.Router();
 
 router.post("/register", async (req, res) => {
@@ -56,8 +56,9 @@ router.get(
   passport.authenticate("google", { session: false }),
   (req, res) => {
     const { result } = req.user;
-    const ORIGIN = process.env.ORIGIN;
-    res.redirect(`${ORIGIN}/login/success?token=${result.accessToken}`);
+    res.redirect(
+      `${config.frontendUrl}/login/success?token=${result.accessToken}`
+    );
   }
 );
 
