@@ -50,7 +50,7 @@ const FeatureSection = () => {
   };
 
   return (
-    <div className="relative pt-20 border-t border-neutral-800 min-h-[800px]">
+    <div className="relative section pt-20 border-t border-neutral-800 min-h-[800px]">
       <motion.div
         className="text-center"
         initial="hidden"

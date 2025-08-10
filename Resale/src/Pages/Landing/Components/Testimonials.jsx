@@ -50,7 +50,7 @@ const Testimonials = () => {
   };
 
   return (
-    <div className="mt-20 tracking-wide">
+    <div className="mt-20 section tracking-wide">
       <motion.div
         className="text-center"
         initial="hidden"
@@ -73,7 +73,7 @@ const Testimonials = () => {
             variants={cardVariants}
             custom={index}
           >
-            <div className="bg-neutral-900 rounded-md p-6 text-md border border-neutral-800 font-thin">
+            <div className=" rounded-md p-6 text-md border border-neutral-800 font-thin">
               <p>{testimonial.text}</p>
               <div className="flex mt-8 items-start">
                 <img

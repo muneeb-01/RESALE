@@ -6,7 +6,7 @@ import {
   loginUser,
   refreshToken,
   logoutUser,
-} from "../Services/authService.js";
+} from "../services/authService.js";
 
 const router = express.Router();
 
